@@ -1,4 +1,6 @@
 import SwiftUI
+import Firebase
+import FirebaseCore
 
 struct LoginView: View {
     @State private var email: String = ""
@@ -7,6 +9,17 @@ struct LoginView: View {
     @EnvironmentObject var viewModel: ViewModel
     
     var body: some View {
+        func login(){
+            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+                if error != nil {
+                    print(error!)
+                }
+                else {
+                    print("Login successful!")
+                    viewModel.loggedIn = true
+                }
+            }
+        }
         NavigationView {
             VStack {
                 Text("Welcome!")
@@ -32,10 +45,20 @@ struct LoginView: View {
                 
                 Button("Login") {
                     viewModel.login(email: email, password: password)
+                    login()
                 }
                 .buttonStyle(GrowingButton())
                 
                 Button("Sign Up") {
+                    Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+                        if error != nil {
+                            print(error!)
+                        }
+                        else {
+                            print("Sign up successful!")
+                            viewModel.loggedIn = true
+                        }
+                    }
                 }
                 .buttonStyle(GrowingButton())
             }
