@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C11C596529EFC81B005D5D83 /* FinalGradeCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11C596429EFC81B005D5D83 /* FinalGradeCalculatorView.swift */; };
 		C1635F4129EF9C3A00CDAE78 /* GradeHubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1635F4029EF9C3A00CDAE78 /* GradeHubApp.swift */; };
 		C1635F4329EF9C3A00CDAE78 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1635F4229EF9C3A00CDAE78 /* ContentView.swift */; };
 		C1635F4529EF9C3A00CDAE78 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C1635F4429EF9C3A00CDAE78 /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C11C596429EFC81B005D5D83 /* FinalGradeCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalGradeCalculatorView.swift; sourceTree = "<group>"; };
 		C1635F3D29EF9C3A00CDAE78 /* GradeHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GradeHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1635F4029EF9C3A00CDAE78 /* GradeHubApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradeHubApp.swift; sourceTree = "<group>"; };
 		C1635F4229EF9C3A00CDAE78 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				C1635F5629EF9CEF00CDAE78 /* DashboardView.swift */,
 				C1635F5829EF9D0A00CDAE78 /* GpaCalculatorView.swift */,
 				C1635F5A29EF9D2900CDAE78 /* LoginView.swift */,
+				C11C596429EFC81B005D5D83 /* FinalGradeCalculatorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -173,6 +176,7 @@
 				C1635F5929EF9D0A00CDAE78 /* GpaCalculatorView.swift in Sources */,
 				C1635F5B29EF9D2900CDAE78 /* LoginView.swift in Sources */,
 				C1635F5229EF9C9F00CDAE78 /* CourseListItem.swift in Sources */,
+				C11C596529EFC81B005D5D83 /* FinalGradeCalculatorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

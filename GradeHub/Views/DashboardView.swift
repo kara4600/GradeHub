@@ -19,6 +19,13 @@ struct DashboardView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.pink)
+                
+                NavigationLink(destination: FinalGradeCalculatorView()) {
+                    Text("Final Grade Calculator")
+                        .frame(minWidth: 200)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.pink)
             }
             .navigationTitle("Grade Hub")
         }
