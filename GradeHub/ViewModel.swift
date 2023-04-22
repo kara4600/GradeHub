@@ -6,48 +6,35 @@ import FirebaseFirestore
 class ViewModel: ObservableObject {
     @Published var loggedIn: Bool
     @Published var courseList: [CourseListItem]
+    @Published var errorMessage: String? = nil
     
     init() {
         self.loggedIn = false
         self.courseList = [CourseListItem]()
     }
     
-    func signUp(email: String, password: String) {
-        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != "1" {
-            Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
-                if error != nil {
-                    print(error!)
-                }
-                else {
-                    print("Sign up successful!")
-                    DispatchQueue.main.async {
-                        self.loggedIn = true
-                    }
-                    if let userId = result?.user.uid{
-                        self.saveUserData(userId: userId, email: email)
-                        self.fetchCourses()
-                    }
-                }
+    func login(email: String, password: String) {
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            if let error = error {
+                self.errorMessage = error.localizedDescription
+            } else {
+                self.loggedIn = true
+                self.errorMessage = nil
             }
         }
     }
-    
-    func login(email: String, password: String) {
-            if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != "1" {
-                Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-                    if error != nil {
-                        print(error!)
-                    }
-                    else {
-                        print("Login successful!")
-                        self.fetchCourses()
-                        DispatchQueue.main.async {
-                            self.loggedIn = true
-                        }
-                    }
-                }
+
+    func signUp(email: String, password: String) {
+        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+            if let error = error {
+                self.errorMessage = error.localizedDescription
+            } else {
+                self.loggedIn = true
+                self.errorMessage = nil
             }
         }
+    }
+
     
     func signOut(){
         do{

@@ -27,7 +27,7 @@ struct LoginView: View {
                 
                 Spacer().frame(height: 13)
                 
-                TextField("Password", text: $password, prompt: Text("Password").foregroundColor(.gray))
+                SecureField("Password", text: $password, prompt: Text("Password").foregroundColor(.gray))
                     .padding()
                     .overlay {
                         RoundedRectangle(cornerRadius: 10)
@@ -36,14 +36,22 @@ struct LoginView: View {
                     .padding(.horizontal)
                 
                 Button("Login") {
+                    viewModel.errorMessage = nil
                     viewModel.login(email: email, password: password)
                 }
                 .buttonStyle(GrowingButton())
                 
                 Button("Sign Up") {
+                    viewModel.errorMessage = nil
                     viewModel.signUp(email: email, password: password)
                 }
                 .buttonStyle(GrowingButton())
+                
+                if let errorMessage = viewModel.errorMessage{
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .padding(.top)
+                }
             }
             .navigationTitle("Grade Hub")
         }
