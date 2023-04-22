@@ -28,6 +28,7 @@ struct CourseListView: View {
                                 Text("Units: " + String(course.units))
                             }
                         }
+                        .onDelete(perform: deleteCourse)
                     }
                 }
 
@@ -67,8 +68,16 @@ struct CourseListView: View {
                 }
                 .buttonStyle(GrowingButton())
             }
+            .onAppear {
+                viewModel.fetchCourses()
+            }
             .navigationTitle("Your Courses")
         }
     }
+    private func deleteCourse(at offsets: IndexSet) {
+            offsets.forEach { index in
+                let course = viewModel.courseList[index]
+                viewModel.deleteCourse(courseId: course.id)
+            }
+        }
 }
-

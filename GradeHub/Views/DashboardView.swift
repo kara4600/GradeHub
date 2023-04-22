@@ -26,6 +26,16 @@ struct DashboardView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.pink)
+                
+                Spacer()
+                Button(action: {
+                    viewModel.signOut()
+                })  {
+                    Text("Sign Out")
+                        .frame(minWidth:200)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.red)
             }
             .navigationTitle("Grade Hub")
         }
