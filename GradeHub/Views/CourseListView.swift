@@ -7,71 +7,76 @@ struct CourseListView: View {
     @State var addGrade: String = "A"
     let gradeOptions = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"]
     let unitOptions = [0, 1, 2, 3, 4, 5]
+    let pink = Color(red: 242/255, green: 207/255, blue: 231/255)
+    let purple = Color(red: 113/255, green: 115/255, blue: 227/255)
     
     var body: some View {
         NavigationView {
-            VStack {
-                if viewModel.courseList.isEmpty {
-                    Text("You have no saved courses.")
-                    Text("Add one below").foregroundColor(.gray)
-                }
-                else {
-                    List {
-                        ForEach(viewModel.courseList, id: \.id) { course in
-                            HStack {
-                                Text(course.courseName.uppercased())
-                                Spacer()
-                                
-                                Text("Grade: " + course.grade)
-                                .padding(.horizontal)
-                                
-                                Text("Units: " + String(course.units))
+            ZStack{LinearGradient(gradient: Gradient(colors: [purple,pink]), startPoint: .top, endPoint: .bottom)
+                    .ignoresSafeArea()
+                VStack {
+                    if viewModel.courseList.isEmpty {
+                        Text("You have no saved courses.")
+                        Text("Add one below").foregroundColor(.gray)
+                    }
+                    else {
+                        List {
+                            ForEach(viewModel.courseList, id: \.id) { course in
+                                HStack {
+                                    Text(course.courseName.uppercased())
+                                    Spacer()
+                                    
+                                    Text("Grade: " + course.grade)
+                                        .padding(.horizontal)
+                                    
+                                    Text("Units: " + String(course.units))
+                                }
+                            }
+                            .onDelete(perform: deleteCourse)
+                        }
+                    }
+                    
+                    TextField("Course Name", text:$addCourseName)
+                        .padding()
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(.blue, lineWidth: 2)
+                        }
+                        .padding(.horizontal)
+                    
+                    HStack {
+                        Text("Select the number of units:")
+                        Picker("Select units", selection: $addUnits) {
+                            ForEach(unitOptions, id: \.self) { unitOption in
+                                Text("\(unitOption)").tag(unitOption)
                             }
                         }
-                        .onDelete(perform: deleteCourse)
+                        .pickerStyle(.menu)
                     }
-                }
-
-                TextField("Course Name", text:$addCourseName)
-                .padding()
-                .overlay {
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(.blue, lineWidth: 2)
-                }
-                .padding(.horizontal)
-                
-                HStack {
-                    Text("Select the number of units:")
-                    Picker("Select units", selection: $addUnits) {
-                        ForEach(unitOptions, id: \.self) { unitOption in
-                            Text("\(unitOption)").tag(unitOption)
+                    
+                    HStack {
+                        Text("Select a grade:")
+                        Picker("Select a grade", selection: $addGrade) {
+                            ForEach(gradeOptions, id: \.self) {
+                                Text($0)
+                            }
                         }
+                        .pickerStyle(.menu)
                     }
-                    .pickerStyle(.menu)
-                }
-
-                HStack {
-                    Text("Select a grade:")
-                    Picker("Select a grade", selection: $addGrade) {
-                        ForEach(gradeOptions, id: \.self) {
-                            Text($0)
-                        }
+                    
+                    Button("Add Course") {
+                        viewModel.addCourseListItem(newCourse: CourseListItem(courseName: addCourseName, units: addUnits, grade: addGrade))
+                        addCourseName = ""
+                        addUnits = 0
+                        addGrade = "A"
                     }
-                    .pickerStyle(.menu)
+                    .buttonStyle(GrowingButton())
                 }
-                
-                Button("Add Course") {
-                    viewModel.addCourseListItem(newCourse: CourseListItem(courseName: addCourseName, units: addUnits, grade: addGrade))
-                    addCourseName = ""
-                    addUnits = 0
-                    addGrade = "A"
+                .onAppear {
+                    viewModel.fetchCourses()
                 }
-                .buttonStyle(GrowingButton())
+                .navigationTitle("Your Courses")
             }
-            .onAppear {
-                viewModel.fetchCourses()
-            }
-            .navigationTitle("Your Courses")
         }
     }
     private func deleteCourse(at offsets: IndexSet) {
